@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortener</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; margin: 20px">
+    <h1 style="text-align: center">URL Shortener</h1>
+
+    <!-- Form to shorten URL -->
+    <form
+      action="/url/"
+      method="POST"
+      style="text-align: center; margin-bottom: 20px"
+    >
+      <label for="url" style="margin-right: 10px">Enter URL:</label>
+      <input
+        type="text"
+        id="url"
+        name="url"
+        required
+        style="padding: 5px; margin-right: 10px"
+      />
+      <button
+        type="submit"
+        style="
+          padding: 5px 10px;
+          background-color: #4caf50;
+          color: white;
+          border: none;
+          cursor: pointer;
+        "
+      >
+        Shorten URL
+      </button>
+    </form>
+
+    <!-- Display list of all shortened URLs -->
+    <% if (urls && urls.length > 0) { %>
+    <h2 style="text-align: center">All Shortened URLs:</h2>
+    <ul style="list-style-type: none; padding: 0">
+      <% urls.forEach(function(entry) { %>
+      <li style="margin-bottom: 15px">
+        <div style="border: 1px solid #ddd; padding: 10px; border-radius: 5px">
+          Original URL:
+          <a
+            href="<%= entry.RedirectUrl %>"
+            target="_blank"
+            style="color: #1e90ff"
+            ><%= entry.RedirectUrl %></a
+          ><br />
+          Shortened URL:
+          <a href="url/<%= entry.ShortId %>" style="color: #1e90ff">
+            <%= protocol + '://' + host + '/' + entry.ShortId %> </a
+          ><br />
+          <!-- Link to analytics -->
+          <a
+            href="/url/analytics/<%= entry.ShortId %>"
+            style="color: #4caf50; text-decoration: none; margin-right: 10px"
+            >View Analytics</a
+          >
+          <!-- Delete button -->
+          <form
+            action="/url/delete/<%= entry.ShortId %>"
+            method="POST"
+            style="display: inline"
+          >
+            <button
+              type="submit"
+              style="
+                background-color: #f44336;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+              "
+            >
+              Delete
+            </button>
+          </form>
+        </div>
+      </li>
+      <% }); %>
+    </ul>
+    <% } else { %>
+    <p style="text-align: center">No URLs found.</p>
+    <% } %>
+  </body>
+</html>

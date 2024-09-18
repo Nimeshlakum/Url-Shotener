@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Analytics</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+      .container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .analytics {
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+        display: inline-block;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      a {
+        color: #1e90ff;
+        text-decoration: none;
+      }
+      button {
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+      }
+      .back-link {
+        color: #1e90ff;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>URL Analytics</h1>
+
+    <!-- Display URL analytics details -->
+    <div class="container">
+      <% if (urlData) { %>
+      <div class="analytics">
+        <h2>Analytics for Shortened URL:</h2>
+        <p>
+          Shortened URL:
+          <a href="/<%= urlData.ShortId %>"
+            ><%= protocol + '://' + host + '/' + urlData.ShortId %></a
+          >
+        </p>
+        <p>Total Clicks: <%= urlData.VisiteHistory.length %></p>
+        <h3>Click History:</h3>
+        <% if (urlData.VisiteHistory.length > 0) { %>
+        <ul>
+          <% urlData.VisiteHistory.forEach(function(visite) { %>
+          <li>
+            Clicked at: <%= new Date(visite.Timestamp).toLocaleString() %>
+          </li>
+          <% }); %>
+        </ul>
+        <% } else { %>
+        <p>No clicks recorded yet.</p>
+        <% } %>
+      </div>
+      <% } else { %>
+      <p style="text-align: center">
+        URL not found or no analytics data available.
+      </p>
+      <% } %>
+    </div>
+
+    <!-- Link to go back to home page -->
+    <div style="text-align: center; margin-top: 20px">
+      <a href="/" class="back-link">Back to Home</a>
+    </div>
+  </body>
+</html>
